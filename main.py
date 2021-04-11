@@ -24,6 +24,8 @@ def global_thresholding(image_name):
 
 
 def adaptive_mean_thresholding(image_name, block_size):
+    # The threshold value is the mean of the neighbourhood area minus the constant C
+
     img = cv.imread(image_name, 0)
     print("img\n", img)
     # blockSize determines the size of the neighbourhood area
@@ -33,6 +35,8 @@ def adaptive_mean_thresholding(image_name, block_size):
 
 
 def adaptive_gaussian_thresholding(image_name, block_size):
+    #  The threshold value is a gaussian-weighted sum of the neighbourhood values minus the constant C
+
     img = cv.imread(image_name, 0)
     print("img\n", img)
     # blockSize determines the size of the neighbourhood area
@@ -41,18 +45,50 @@ def adaptive_gaussian_thresholding(image_name, block_size):
     plot_comparison(img, thresh, "Adaptive gaussian thresholding")
 
 
+def otsu_thresholding(image_name):
+    # Automatically calculates a threshold value from image histogram
+    # (for bimodal images, otherwise binarization is not accurate)
+
+    img = cv.imread(image_name, 0)
+    print("img\n", img)
+    image, thresh = cv.threshold(img, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)
+    plot_comparison(img, thresh, "Otsu's thresholding")
+
+
+def otsu_thresholding_filtered(image_name):
+    # Additionally image is filtered with a 5x5 gaussian kernel to remove the noise
+    img = cv.imread(image_name, 0)
+    print("img\n", img)
+    blur = cv.GaussianBlur(img, (5, 5), 0)
+    image, thresh = cv.threshold(blur, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)
+    plot_comparison(img, thresh, "Otsu's thresholding filtered")
+
+
 if __name__ == '__main__':
     # cv.IMREAD_COLOR flag -  convert image to the 3 channel BGR color image
     # cv.imread() - returns numpy.ndarray
 
+    # example of image with uneven lighting image
     global_thresholding('image1.jpg')
     adaptive_mean_thresholding('image1.jpg', 7)
     adaptive_gaussian_thresholding('image1.jpg', 7)
-    adaptive_gaussian_thresholding('image1.jpg', 77)
-    adaptive_gaussian_thresholding('image1.jpg', 777)
-    adaptive_gaussian_thresholding('image1.jpg', 7777)
-
+    # adaptive_gaussian_thresholding('image1.jpg', 77)
+    # adaptive_gaussian_thresholding('image1.jpg', 777)
+    # adaptive_gaussian_thresholding('image1.jpg', 7777)
     # as blockSize grows, adaptive threshold is more like simple threshold
+    otsu_thresholding('image1.jpg')
+    otsu_thresholding_filtered('image1.jpg')
 
+    # example of image with even lighting
+    global_thresholding('image3.jpg')
+    otsu_thresholding_filtered('image3.jpg')
 
+    # example of bimodal image
+    global_thresholding('images/image5.png')
+    otsu_thresholding('images/image5.png')
+    otsu_thresholding_filtered('images/image5.png')
 
+    # # histogram of bimodal image
+    # im = cv.imread('images/image5.png', 0)
+    # plt.hist(im.ravel(), 30)
+    # plt.show()
