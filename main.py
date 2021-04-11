@@ -1,7 +1,7 @@
 import cv2 as cv
 import numpy as np
 from matplotlib import pyplot as plt
-
+import otsu_binarization
 
 def plot_comparison(original, thresh, title):
     fig, axes = plt.subplots(1, 2)
@@ -83,12 +83,15 @@ if __name__ == '__main__':
     global_thresholding('image3.jpg')
     otsu_thresholding_filtered('image3.jpg')
 
-    # example of bimodal image
-    global_thresholding('images/image5.png')
+    # histogram of bimodal image
+    im = cv.imread('images/image5.png', 0)
+    plt.hist(im.ravel(), 30)
+    plt.show()
+
+    # # example of bimodal image
+    # global_thresholding('images/image5.png')
     otsu_thresholding('images/image5.png')
     otsu_thresholding_filtered('images/image5.png')
 
-    # # histogram of bimodal image
-    # im = cv.imread('images/image5.png', 0)
-    # plt.hist(im.ravel(), 30)
-    # plt.show()
+    # OWN OTSU'S BINARIZATION
+    otsu_binarization.binarization('images/image5.png')
