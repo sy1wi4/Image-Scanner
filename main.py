@@ -1,7 +1,7 @@
 import cv2 as cv
-import numpy as np
 from matplotlib import pyplot as plt
 import otsu_binarization
+
 
 def plot_comparison(original, thresh, title):
     fig, axes = plt.subplots(1, 2)
@@ -69,29 +69,31 @@ if __name__ == '__main__':
     # cv.imread() - returns numpy.ndarray
 
     # example of image with uneven lighting image
-    global_thresholding('image1.jpg')
-    adaptive_mean_thresholding('image1.jpg', 7)
-    adaptive_gaussian_thresholding('image1.jpg', 7)
-    # adaptive_gaussian_thresholding('image1.jpg', 77)
-    # adaptive_gaussian_thresholding('image1.jpg', 777)
-    # adaptive_gaussian_thresholding('image1.jpg', 7777)
+    # global_thresholding('images/image1.jpg')
+    # adaptive_mean_thresholding('images/image1.jpg', 7)
+    # adaptive_gaussian_thresholding('images/image1.jpg', 7)
+    # adaptive_gaussian_thresholding('image/image1.jpg', 77)
+    # adaptive_gaussian_thresholding('image/image1.jpg', 777)
+    # adaptive_gaussian_thresholding('image/image1.jpg', 7777)
     # as blockSize grows, adaptive threshold is more like simple threshold
-    otsu_thresholding('image1.jpg')
-    otsu_thresholding_filtered('image1.jpg')
+    otsu_thresholding('images/image1.jpg')
+    otsu_thresholding_filtered('images/image1.jpg')
+    # OWN OTSU'S BINARIZATION
+    otsu_binarization.binarization('images/image1.jpg')
 
-    # example of image with even lighting
-    global_thresholding('image3.jpg')
-    otsu_thresholding_filtered('image3.jpg')
+    # # example of image with even lighting
+    # global_thresholding('image/image3.jpg')
+    # otsu_thresholding_filtered('image/image3.jpg')
 
-    # histogram of bimodal image
-    im = cv.imread('images/image5.png', 0)
-    plt.hist(im.ravel(), 30)
-    plt.show()
+    # # histogram of bimodal image
+    # im = cv.imread('images/image5.png', 0)
+    # plt.hist(im.ravel(), 30)
+    # plt.show()
 
     # # example of bimodal image
     # global_thresholding('images/image5.png')
-    otsu_thresholding('images/image5.png')
-    otsu_thresholding_filtered('images/image5.png')
-
-    # OWN OTSU'S BINARIZATION
-    otsu_binarization.binarization('images/image5.png')
+    # otsu_thresholding('images/image5.png')
+    # otsu_thresholding_filtered('images/image5.png')
+    #
+    # # OWN OTSU'S BINARIZATION
+    # otsu_binarization.binarization('images/image5.png')

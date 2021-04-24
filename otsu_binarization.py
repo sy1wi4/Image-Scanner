@@ -18,7 +18,7 @@ def plot(original, thresh, title):
 
 # with image filtering
 def binarization(image_name):
-    img = cv.GaussianBlur(cv.imread('images/image5.png', 0), (5, 5), 0)
+    img = cv.GaussianBlur(cv.imread(image_name, 0), (5, 5), 0)
     print(img)
 
     # compute histogram
@@ -43,7 +43,6 @@ def binarization(image_name):
         if v > max_v:
             thresh = t
             max_v = v
-    print(thresh)
 
     plot(img, thresh, "Own Otsu's thresholding")
 
