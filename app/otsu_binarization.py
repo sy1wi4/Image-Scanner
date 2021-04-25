@@ -3,7 +3,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 
-def plot(original, thresh, title):
+def plot_c(original, thresh, title):
     fig, axes = plt.subplots(1, 2)
     axes[0].imshow(original, 'gray')
     axes[0].set_title("Original")
@@ -17,9 +17,8 @@ def plot(original, thresh, title):
 
 
 # with image filtering
-def binarization(image_name):
+def binarization(image_name, plot=False):
     img = cv.GaussianBlur(cv.imread(image_name, 0), (5, 5), 0)
-    print(img)
 
     # compute histogram
     values = img.flatten()
@@ -37,14 +36,18 @@ def binarization(image_name):
     for t in range(256):
         p1 = np.sum(norm_hist[:t])
         p2 = np.sum(norm_hist[t:])
-        m1 = np.sum([i for i in range(t)] * hist[:t])/p1
-        m2 = np.sum([i for i in range(t, 256)] * hist[t:])/p2
+        m1 = np.sum([i for i in range(t)] * hist[:t])/p1 if p1 != 0 else np.nan
+        m2 = np.sum([i for i in range(t, 256)] * hist[t:])/p2 if p2 != 0 else np.nan
+
         v = p1 * p2 * (m1 - m2) ** 2
         if v > max_v:
             thresh = t
             max_v = v
 
-    plot(img, thresh, "Own Otsu's thresholding")
+    if plot:
+        plot_c(img, thresh, "Own Otsu's thresholding")
+
+    return thresh
 
 
 

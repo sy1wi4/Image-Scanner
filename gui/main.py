@@ -2,10 +2,9 @@ import sys
 import tkinter as tk
 from tkinter import filedialog
 from PIL import Image, ImageTk
-from app.main import global_thresholding
-
-sys.path.insert(1, '/path/to/application/app/folder')
-
+# TODO: fix it
+sys.path.insert(0, '..')
+from app.main import global_thresholding, otsu_thresholding_filtered
 
 w = 800
 h = 800
@@ -18,8 +17,8 @@ def center_window(width, height):
     screen_w = window.winfo_screenwidth()
     screen_h = window.winfo_screenheight()
 
-    pos_right = screen_w/2 - width/2
-    pos_down = screen_h/2 - height/2
+    pos_right = screen_w / 2 - width / 2
+    pos_down = screen_h / 2 - height / 2
 
     # .geometry("window width x window height + position right + position down")
     window.geometry("{w}x{h}+{r}+{d}".format(w=width, h=height, r=int(pos_right), d=int(pos_down)))
@@ -56,6 +55,7 @@ def display_image(img=None, path=None, location='l'):
 # Convert the Image object into a TkPhoto object
 def convert_image(img):
     im = Image.fromarray(img)
+    im = im.resize((200, 320))
     imgtk = ImageTk.PhotoImage(image=im)
     return imgtk
 
@@ -65,7 +65,8 @@ def choose_and_scan():
     path = display_image()
 
     # scan
-    img = global_thresholding(path)
+    # img = global_thresholding(path)
+    img = otsu_thresholding_filtered(path)
     im = convert_image(img)
     display_image(img=im, location='r')
 
@@ -74,13 +75,11 @@ window.title('Image-Scanner')
 center_window(w, h)
 window.configure(background='gray13')
 
-
 title = tk.Label(window, text="Welcome to Image-Scanner", bg='gray13', fg='Azure')
 title.config(font=('helvetica', 35, 'bold'))
 title.place(relx=0.5, rely=0.2, anchor=tk.CENTER)
 
 button = tk.Button(window, command=choose_and_scan, text="Choose an image", height=3, width=20, bg='Azure')
 button.place(relx=0.5, rely=0.4, anchor=tk.CENTER)
-
 
 window.mainloop()
