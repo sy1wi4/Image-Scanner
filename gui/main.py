@@ -1,6 +1,11 @@
+import sys
 import tkinter as tk
 from tkinter import filedialog
 from PIL import Image, ImageTk
+from app.main import global_thresholding
+
+sys.path.insert(1, '/path/to/application/app/folder')
+
 
 w = 800
 h = 800
@@ -20,20 +25,49 @@ def center_window(width, height):
     window.geometry("{w}x{h}+{r}+{d}".format(w=width, h=height, r=int(pos_right), d=int(pos_down)))
 
 
-def display_image(path):
-    load = Image.open(path)
-    load = load.resize((200, 320))
-    render = ImageTk.PhotoImage(load)
-    img = tk.Label(image=render)
-    img.image = render
-    img.place(relx=0.3, rely=0.7, anchor=tk.CENTER)
-
-
 def load_image():
     global image_path
     image_path = filedialog.askopenfilename()
     print(image_path)
     return image_path
+
+
+# chosen by user or from TkPhoto object
+def display_image(img=None, path=None, location='l'):
+    if img is None:
+        path = load_image()
+        load = Image.open(path)
+        load = load.resize((200, 320))
+        render = ImageTk.PhotoImage(load)
+    else:
+        render = img
+
+    img = tk.Label(image=render)
+    img.image = render
+    if location == 'l':
+        img.place(relx=0.3, rely=0.7, anchor=tk.CENTER)
+    else:
+        img.place(relx=0.7, rely=0.7, anchor=tk.CENTER)
+
+    return path
+
+
+# TODO: split functions into classes X D
+# Convert the Image object into a TkPhoto object
+def convert_image(img):
+    im = Image.fromarray(img)
+    imgtk = ImageTk.PhotoImage(image=im)
+    return imgtk
+
+
+def choose_and_scan():
+    # original
+    path = display_image()
+
+    # scan
+    img = global_thresholding(path)
+    im = convert_image(img)
+    display_image(img=im, location='r')
 
 
 window.title('Image-Scanner')
@@ -45,11 +79,8 @@ title = tk.Label(window, text="Welcome to Image-Scanner", bg='gray13', fg='Azure
 title.config(font=('helvetica', 35, 'bold'))
 title.place(relx=0.5, rely=0.2, anchor=tk.CENTER)
 
-button = tk.Button(window, command=load_image, text="Choose an image", height=3, width=20, bg='Azure')
+button = tk.Button(window, command=choose_and_scan, text="Choose an image", height=3, width=20, bg='Azure')
 button.place(relx=0.5, rely=0.4, anchor=tk.CENTER)
-
-
-# TODO: how to display loaded image ???
 
 
 window.mainloop()

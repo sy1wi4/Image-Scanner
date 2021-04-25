@@ -21,6 +21,7 @@ def global_thresholding(image_name):
     print("img\n", img)
     image, thresh = cv.threshold(img, 127, 255, cv.THRESH_BINARY)
     plot_comparison(img, thresh, "Global thresholding")
+    return thresh
 
 
 def adaptive_mean_thresholding(image_name, block_size):
@@ -69,7 +70,7 @@ if __name__ == '__main__':
     # cv.imread() - returns numpy.ndarray
 
     # example of image with uneven lighting image
-    # global_thresholding('images/image1.jpg')
+    global_thresholding('images/image1.jpg')
     # adaptive_mean_thresholding('images/image1.jpg', 7)
     # adaptive_gaussian_thresholding('images/image1.jpg', 7)
     # adaptive_gaussian_thresholding('image/image1.jpg', 77)
@@ -77,9 +78,9 @@ if __name__ == '__main__':
     # adaptive_gaussian_thresholding('image/image1.jpg', 7777)
     # as blockSize grows, adaptive threshold is more like simple threshold
     otsu_thresholding('images/image1.jpg')
-    otsu_thresholding_filtered('images/image1.jpg')
-    # OWN OTSU'S BINARIZATION
-    otsu_binarization.binarization('images/image1.jpg')
+    # otsu_thresholding_filtered('images/image1.jpg')
+    # # OWN OTSU'S BINARIZATION
+    # otsu_binarization.binarization('images/image1.jpg')
 
     # # example of image with even lighting
     # global_thresholding('image/image3.jpg')
