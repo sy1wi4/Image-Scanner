@@ -25,9 +25,9 @@ class GUI:
         self.button_choose = tk.Button(self.window, command=self.choose_image, text="Choose an image",
                                        height=3, width=20, bg='pink3')
 
-        window.title('Image-Scanner')
+        self.window.title('Image-Scanner')
         self.center_window(WIDTH, HEIGHT)
-        window.configure(background='gray13')
+        self. window.configure(background='gray13')
 
         self.set_title()
 
@@ -82,7 +82,6 @@ class GUI:
         s = tk.Scale(self.window, from_=4, to=400, command=self.show_block_size_value, orient=tk.HORIZONTAL, bg='Azure',
                      length=200, resolution=2, showvalue=0)
         s.place(relx=0.55, rely=0.25, anchor=tk.CENTER)
-        print(block_size)
 
     def load_image(self):
         self.image_path = filedialog.askopenfilename()
@@ -155,3 +154,5 @@ if __name__ == '__main__':
     window = tk.Tk()
     gui = GUI(window, block_size)
     window.mainloop()
+
+    # TODO: save scanned image as file
