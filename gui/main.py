@@ -1,6 +1,9 @@
 import sys
 import tkinter as tk
 from tkinter import filedialog
+
+import PIL
+import cv2 as cv
 from PIL import Image, ImageTk
 
 sys.path.insert(0, '..')
@@ -82,7 +85,6 @@ class GUI:
         print(block_size)
 
     def load_image(self):
-        # global image_path
         self.image_path = filedialog.askopenfilename()
         print(self.image_path)
         return self.image_path
@@ -91,9 +93,18 @@ class GUI:
     def display_image(self, img=None, path=None, location='l'):
         if img is None:
             path = self.load_image()
-            load = Image.open(path)
-            load = load.resize(SIZE)
-            render = ImageTk.PhotoImage(load)
+
+            try:
+                load = Image.open(path)
+                load = load.resize(SIZE)
+                render = ImageTk.PhotoImage(load)
+            except AttributeError:
+                print("Load image!")
+                return
+            except PIL.UnidentifiedImageError:
+                print("Loaded file is not image!")
+                return
+
         else:
             render = img
 
@@ -117,9 +128,13 @@ class GUI:
         # scanned
         # img = global_thresholding(path)
         # img = otsu_thresholding_filtered(path)
-        img = adaptive_mean_thresholding(gui.image_path, self.block_size)
-        im = convert_image(img)
-        self.display_image(img=im, location='r')
+
+        try:
+            img = adaptive_mean_thresholding(self.image_path, self.block_size)
+            im = convert_image(img)
+            self.display_image(img=im, location='r')
+        except cv.error:
+            print("Load file of proper format!")
 
     def choose_image(self):
         # original
