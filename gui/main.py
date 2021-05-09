@@ -6,14 +6,15 @@ from PIL import Image, ImageTk
 sys.path.insert(0, '..')
 from app.main import adaptive_mean_thresholding, global_thresholding, otsu_thresholding_filtered
 
-w = 1100
-h = 900
-image_path = None
-size = (300, 480)
+WIDTH = 1100
+HEIGHT = 900
+SIZE = (300, 480)
 
-window = tk.Tk()
-block_size = 7
-var = tk.StringVar()
+
+class GUI:
+    def __init__(self, b_size):
+        self.image_path = None
+        self.block_size = b_size
 
 
 def center_window(width, height):
@@ -71,10 +72,10 @@ def add_slider():
 
 
 def load_image():
-    global image_path
-    image_path = filedialog.askopenfilename()
-    print(image_path)
-    return image_path
+    # global image_path
+    gui.image_path = filedialog.askopenfilename()
+    print(gui.image_path)
+    return gui.image_path
 
 
 # chosen by user or from TkPhoto object
@@ -82,7 +83,7 @@ def display_image(img=None, path=None, location='l'):
     if img is None:
         path = load_image()
         load = Image.open(path)
-        load = load.resize(size)
+        load = load.resize(SIZE)
         render = ImageTk.PhotoImage(load)
     else:
         render = img
@@ -107,7 +108,7 @@ def display_image(img=None, path=None, location='l'):
 # Convert the Image object into a TkPhoto object
 def convert_image(img):
     im = Image.fromarray(img)
-    im = im.resize(size)
+    im = im.resize(SIZE)
     imgtk = ImageTk.PhotoImage(image=im)
     return imgtk
 
@@ -121,15 +122,22 @@ def scan_image():
     # scanned
     # img = global_thresholding(path)
     # img = otsu_thresholding_filtered(path)
-    img = adaptive_mean_thresholding(image_path, block_size)
+    img = adaptive_mean_thresholding(gui.image_path, block_size)
     im = convert_image(img)
     display_image(img=im, location='r')
 
 
 if __name__ == '__main__':
 
+    block_size = 7
+
+    gui = GUI(block_size)
+
+    window = tk.Tk()
+    var = tk.StringVar()
+
     window.title('Image-Scanner')
-    center_window(w, h)
+    center_window(WIDTH, HEIGHT)
     window.configure(background='gray13')
 
     set_title()
