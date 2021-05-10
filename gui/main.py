@@ -1,5 +1,6 @@
 import sys
 import tkinter as tk
+import numpy as np
 from tkinter import filedialog
 
 import PIL
@@ -22,9 +23,9 @@ class GUI:
         self.block_size = b_size
         self.title = None
         self.var = tk.StringVar()
+        self.scan_arr = None
         self.button_choose = tk.Button(self.window, command=self.choose_image, text="Choose an image",
                                        height=3, width=20, bg='pink3')
-
         self.window.title('Image-Scanner')
         self.center_window(WIDTH, HEIGHT)
         self. window.configure(background='gray13')
@@ -35,6 +36,7 @@ class GUI:
 
         self.add_slider()
         self.add_scan_button()
+        self.add_save_button()
 
     def center_window(self, width, height):
         screen_w = self.window.winfo_screenwidth()
@@ -54,10 +56,18 @@ class GUI:
     def add_scan_button(self):
         text = tk.Label(self.window, text="...and scan!", bg='gray13', fg='Azure')
         text.config(font=('helvetica', 15, 'bold'))
-        text.place(relx=0.75, rely=0.2, anchor=tk.CENTER)
+        text.place(relx=0.7, rely=0.2, anchor=tk.CENTER)
 
         button_block = tk.Button(self.window, command=self.scan_image, text="Scan", height=2, width=16, bg='Azure')
-        button_block.place(relx=0.75, rely=0.25, anchor=tk.CENTER)
+        button_block.place(relx=0.7, rely=0.25, anchor=tk.CENTER)
+
+    def add_save_button(self):
+        text = tk.Label(self.window, text="Save as file", bg='gray13', fg='Azure')
+        text.config(font=('helvetica', 15, 'bold'))
+        text.place(relx=0.9, rely=0.2, anchor=tk.CENTER)
+
+        button_block = tk.Button(self.window, command=self.save_to_file, text="Save", height=2, width=16, bg='Azure')
+        button_block.place(relx=0.9, rely=0.25, anchor=tk.CENTER)
 
     def show_block_size_value(self, val):
         self.block_size = int(val) - 1
@@ -73,23 +83,36 @@ class GUI:
     def add_slider(self):
         text = tk.Label(self.window, text="Select block size...", bg='gray13', fg='Azure')
         text.config(font=('helvetica', 15, 'bold'))
-        text.place(relx=0.55, rely=0.2, anchor=tk.CENTER)
+        text.place(relx=0.5, rely=0.2, anchor=tk.CENTER)
 
         # resolution is 2 because block_size must be an odd number
         # THERE IS A BUG IN TKINKER!!! cannot set resolution=2 and get odd numbers
         # - there are only even WTF?!?!
         # so real block_size is 1 unit less
-        s = tk.Scale(self.window, from_=4, to=400, command=self.show_block_size_value, orient=tk.HORIZONTAL, bg='Azure',
+        s = tk.Scale(self.window, from_=4, to=200, command=self.show_block_size_value, orient=tk.HORIZONTAL, bg='Azure',
                      length=200, resolution=2, showvalue=0)
-        s.place(relx=0.55, rely=0.25, anchor=tk.CENTER)
+        s.place(relx=0.5, rely=0.25, anchor=tk.CENTER)
 
     def load_image(self):
         self.image_path = filedialog.askopenfilename()
         print(self.image_path)
         return self.image_path
 
+    def save_to_file(self):
+        if self.scan_arr is None:
+            print("No image scanned!")
+            return
+
+        filename = filedialog.asksaveasfile(mode='w', defaultextension=".jpg")
+
+        if not filename:
+            return
+
+        Image.fromarray(self.scan_arr).save(filename)
+
     # chosen by user or from TkPhoto object
     def display_image(self, img=None, path=None, location='l'):
+
         if img is None:
             path = self.load_image()
 
@@ -130,6 +153,7 @@ class GUI:
 
         try:
             img = adaptive_mean_thresholding(self.image_path, self.block_size)
+            self.scan_arr = img
             im = convert_image(img)
             self.display_image(img=im, location='r')
         except cv.error:
@@ -154,5 +178,3 @@ if __name__ == '__main__':
     window = tk.Tk()
     gui = GUI(window, block_size)
     window.mainloop()
-
-    # TODO: save scanned image as file
