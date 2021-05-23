@@ -1,6 +1,5 @@
 import sys
 import tkinter as tk
-import numpy as np
 from tkinter import filedialog
 
 import PIL
@@ -26,7 +25,7 @@ class GUI:
         self.var_block_size = tk.StringVar()
         self.var_block_size.set(str(START_BLOCK_SIZE))
         self.var_method = tk.StringVar()
-        self.var_method.set("adaptive")   # default - adaptive method
+        self.var_method.set("adaptive")  # default - adaptive method
         self.scan_arr = None
         self.button_choose = tk.Button(self.window, command=self.choose_image, text="Choose an image",
                                        height=3, width=20, bg='pink3')
@@ -37,7 +36,7 @@ class GUI:
                                               value="adaptive", bg='Azure')
         self.window.title('Image-Scanner')
         self.center_window(WIDTH, HEIGHT)
-        self. window.configure(background='gray13')
+        self.window.configure(background='gray13')
         self.set_title()
 
         self.button_choose.place(relx=0.25, rely=0.2, anchor=tk.CENTER)
@@ -188,7 +187,6 @@ def convert_image(img):
 
 
 if __name__ == '__main__':
-
     block_size = START_BLOCK_SIZE
     window = tk.Tk()
     gui = GUI(window, block_size)

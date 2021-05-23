@@ -1,9 +1,10 @@
 import os
-import unittest
 import tkinter as tk
-import cv2 as cv
+import unittest
+
 from app.main import global_thresholding, adaptive_mean_thresholding, otsu_binarization
 from gui.main import GUI
+
 os.chdir("..")   # go up one directory from working directory
 
 
