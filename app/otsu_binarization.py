@@ -18,8 +18,8 @@ def plot_c(original, thresh, title):
 
 # with image filtering
 def binarization(image_name, plot=False):
+    # remove the noise
     img = cv.GaussianBlur(cv.imread(image_name, 0), (5, 5), 0)
-
     # compute histogram
     values = img.flatten()
     hist, bins = np.histogram(values, range(257))
@@ -47,7 +47,9 @@ def binarization(image_name, plot=False):
     if plot:
         plot_c(img, thresh, "Own Otsu's thresholding")
 
-    return thresh
+    res = np.where(img > thresh, 255, 0)
+
+    return thresh, res
 
 
 

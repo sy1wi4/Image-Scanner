@@ -8,8 +8,8 @@ import cv2 as cv
 from PIL import Image, ImageTk
 
 sys.path.insert(0, '..')
-from app.main import adaptive_mean_thresholding, global_thresholding, otsu_thresholding_filtered, \
-    adaptive_gaussian_thresholding
+from app.main import adaptive_gaussian_thresholding
+from app.otsu_binarization import binarization
 
 WIDTH = 1100
 HEIGHT = 900
@@ -23,17 +23,28 @@ class GUI:
         self.image_path = None
         self.block_size = b_size
         self.title = None
-        self.var = tk.StringVar()
+        self.var_block_size = tk.StringVar()
+        self.var_block_size.set(str(START_BLOCK_SIZE))
+        self.var_method = tk.StringVar()
+        self.var_method.set("adaptive")   # default - adaptive method
         self.scan_arr = None
         self.button_choose = tk.Button(self.window, command=self.choose_image, text="Choose an image",
                                        height=3, width=20, bg='pink3')
+        self.radio_group = tk.LabelFrame(self.window, text="  METHOD  ", bg='Azure')
+        self.otsu_method = tk.Radiobutton(self.radio_group, text="otsu      ", variable=self.var_method,
+                                          value="otsu", bg='Azure')
+        self.adaptive_method = tk.Radiobutton(self.radio_group, text="adaptive", variable=self.var_method,
+                                              value="adaptive", bg='Azure')
         self.window.title('Image-Scanner')
         self.center_window(WIDTH, HEIGHT)
         self. window.configure(background='gray13')
-
         self.set_title()
 
-        self.button_choose.place(relx=0.25, rely=0.25, anchor=tk.CENTER)
+        self.button_choose.place(relx=0.25, rely=0.2, anchor=tk.CENTER)
+
+        self.radio_group.place(relx=0.25, rely=0.3, anchor=tk.CENTER)
+        self.otsu_method.pack()
+        self.adaptive_method.pack()
 
         self.add_slider()
         self.add_scan_button()
@@ -72,11 +83,11 @@ class GUI:
 
     def show_block_size_value(self, val):
         self.block_size = int(val) - 1
-        self.var.set(str(self.block_size))
+        self.var_block_size.set(str(self.block_size))
 
-        text = tk.Label(self.window, textvariable=self.var, bg='gray13', fg='Azure')
+        text = tk.Label(self.window, textvariable=self.var_block_size, bg='gray13', fg='Azure')
         text.config(font=('helvetica', 15, 'bold'))
-        text.place(relx=0.55, rely=0.3, anchor=tk.CENTER)
+        text.place(relx=0.5, rely=0.3, anchor=tk.CENTER)
         self.window.configure(background='gray13')
 
         # every time the slider is moved scanned image is updated
@@ -93,10 +104,11 @@ class GUI:
         s = tk.Scale(self.window, from_=4, to=200, command=self.show_block_size_value, orient=tk.HORIZONTAL, bg='Azure',
                      length=200, resolution=2, showvalue=0)
         s.place(relx=0.5, rely=0.25, anchor=tk.CENTER)
+        # default value
+        self.show_block_size_value(self.block_size + 1)
 
     def load_image(self):
         self.image_path = filedialog.askopenfilename()
-        print(self.image_path)
         return self.image_path
 
     def save_to_file(self):
@@ -149,18 +161,18 @@ class GUI:
 
     def scan_image(self):
         # scanned
-        # img = global_thresholding(path)
-        # img = otsu_thresholding_filtered(path)
-
         try:
             # img = adaptive_mean_thresholding(self.image_path, self.block_size)
-            img = adaptive_gaussian_thresholding(self.image_path, self.block_size)
-
+            if self.var_method.get() == "otsu":
+                img = binarization(self.image_path, self.block_size)[1]
+            else:
+                img = adaptive_gaussian_thresholding(self.image_path, self.block_size)
             self.scan_arr = img
             im = convert_image(img)
             self.display_image(img=im, location='r')
-        except cv.error:
+        except cv.error as e:
             print("Load file of proper format!")
+            print(e)
 
     def choose_image(self):
         # original

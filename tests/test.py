@@ -27,9 +27,9 @@ class MyTest(unittest.TestCase):
 
     def test_otsu_binarization(self):
         im_path1 = 'images\image1.jpg'
-        self.assertEqual(otsu_binarization.binarization(im_path1), 155)
+        self.assertEqual(otsu_binarization.binarization(im_path1)[0], 155)
 
         im_path2 = 'images\image4.png'
-        self.assertEqual(otsu_binarization.binarization(im_path2), 117)
+        self.assertEqual(otsu_binarization.binarization(im_path2)[1], 117)
 
 
