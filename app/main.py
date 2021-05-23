@@ -101,10 +101,10 @@ def test_methods(path, block_size=7):
 
 if __name__ == '__main__':
 
-    # test_methods('images/image1.jpg', 7)
-    # quick_comparison()
+    test_methods('images/image1.jpg', 7)
+    quick_comparison()
 
-    global_thresholding('images/buildings.jpg', plot=True)
-    otsu_thresholding('images/buildings.jpg', plot=True)
-    otsu_thresholding_filtered('images/buildings.jpg', plot=True)
-    otsu_binarization.binarization('images/buildings.jpg', plot=True)
+    # global_thresholding('images/buildings.jpg', plot=True)
+    # otsu_thresholding('images/buildings.jpg', plot=True)
+    # otsu_thresholding_filtered('images/buildings.jpg', plot=True)
+    # otsu_binarization.binarization('images/buildings.jpg', plot=True)

@@ -153,7 +153,7 @@ class GUI:
         # img = otsu_thresholding_filtered(path)
 
         try:
-            img = adaptive_mean_thresholding(self.image_path, self.block_size)
+            # img = adaptive_mean_thresholding(self.image_path, self.block_size)
             img = adaptive_gaussian_thresholding(self.image_path, self.block_size)
 
             self.scan_arr = img
