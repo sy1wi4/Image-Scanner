@@ -8,7 +8,8 @@ import cv2 as cv
 from PIL import Image, ImageTk
 
 sys.path.insert(0, '..')
-from app.main import adaptive_mean_thresholding, global_thresholding, otsu_thresholding_filtered
+from app.main import adaptive_mean_thresholding, global_thresholding, otsu_thresholding_filtered, \
+    adaptive_gaussian_thresholding
 
 WIDTH = 1100
 HEIGHT = 900
@@ -153,6 +154,8 @@ class GUI:
 
         try:
             img = adaptive_mean_thresholding(self.image_path, self.block_size)
+            img = adaptive_gaussian_thresholding(self.image_path, self.block_size)
+
             self.scan_arr = img
             im = convert_image(img)
             self.display_image(img=im, location='r')

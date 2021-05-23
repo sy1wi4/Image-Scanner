@@ -1,6 +1,6 @@
 import cv2 as cv
 from matplotlib import pyplot as plt
-# import otsu_binarization
+from app import otsu_binarization
 
 
 def plot_comparison(original, thresh, title):
@@ -70,6 +70,27 @@ def otsu_thresholding_filtered(image_name, plot=False):
     return thresh
 
 
+def quick_comparison():
+    # example of image with uneven lighting image
+    adaptive_gaussian_thresholding('images/image1.jpg', 7, plot=True)
+    adaptive_gaussian_thresholding('images/image1.jpg', 77, plot=True)
+    adaptive_gaussian_thresholding('images/image1.jpg', 777, plot=True)
+
+    # as blockSize grows, adaptive threshold is more like simple threshold
+
+    # OWN OTSU'S BINARIZATION
+    otsu_binarization.binarization('images/image1.jpg', plot=True)
+
+    # example of image with even lighting
+    global_thresholding('images/image3.jpg', plot=True)
+    otsu_thresholding_filtered('images/image3.jpg', plot=True)
+
+    # example of bimodal image
+    global_thresholding('images/image4.png', plot=True)
+    otsu_thresholding('images/image4.png', plot=True)
+    otsu_thresholding_filtered('images/image4.png', plot=True)
+
+
 def test_methods(path, block_size=7):
     global_thresholding(path, plot=True)
     adaptive_mean_thresholding(path, block_size, plot=True)
@@ -81,24 +102,9 @@ def test_methods(path, block_size=7):
 if __name__ == '__main__':
 
     # test_methods('images/image1.jpg', 7)
+    # quick_comparison()
 
-    # example of image with uneven lighting image
-    adaptive_gaussian_thresholding('images/image1.jpg', 7, plot=True)
-    # adaptive_gaussian_thresholding('images/image1.jpg', 77, plot=True)
-    # adaptive_gaussian_thresholding('images/image1.jpg', 777, plot=True)
-
-    # as blockSize grows, adaptive threshold is more like simple threshold
-
-    ## OWN OTSU'S BINARIZATION
-    # otsu_binarization.binarization('images/image1.jpg', plot=True)
-
-    # # example of image with even lighting
-    # global_thresholding('images/image3.jpg', plot=True)
-    # otsu_thresholding_filtered('images/image3.jpg', plot=True)
-
-
-    # # example of bimodal image
-    # global_thresholding('images/image5.png', plot=True)
-    # otsu_thresholding('images/image5.png', plot=True)
-    # otsu_thresholding_filtered('images/image5.png', plot=True)
-
+    global_thresholding('images/buildings.jpg', plot=True)
+    otsu_thresholding('images/buildings.jpg', plot=True)
+    otsu_thresholding_filtered('images/buildings.jpg', plot=True)
+    otsu_binarization.binarization('images/buildings.jpg', plot=True)
