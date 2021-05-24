@@ -88,7 +88,7 @@ def quick_comparison():
     # example of bimodal image
     global_thresholding('images/image4.png', plot=True)
     otsu_thresholding('images/image4.png', plot=True)
-    otsu_thresholding_filtered('images/image4.png', plot=True)
+    otsu_binarization.binarization('images/image4.png', plot=True)
 
 
 def test_methods(path, block_size=7):
@@ -101,7 +101,7 @@ def test_methods(path, block_size=7):
 
 if __name__ == '__main__':
 
-    test_methods('images/image1.jpg', 7)
+    # test_methods('images/image1.jpg', 7)
     quick_comparison()
 
     # global_thresholding('images/buildings.jpg', plot=True)
