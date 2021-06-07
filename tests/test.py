@@ -5,17 +5,17 @@ import unittest
 from app.main import global_thresholding, adaptive_mean_thresholding, otsu_binarization
 from gui.main import GUI
 
-os.chdir("..")   # go up one directory from working directory
+os.chdir("..")  # go up one directory from working directory
 
 
 class MyTest(unittest.TestCase):
 
     def test_thresh(self):
-        im_path1 = 'images\image1.jpg'
+        im_path1 = 'images\\image1.jpg'
         self.assertEqual(global_thresholding(im_path1)[0][0], 255)
         self.assertEqual(adaptive_mean_thresholding(im_path1, 7)[0][0], 255)
 
-        im_path2 = 'images\image2.jpg'
+        im_path2 = 'images\\image2.jpg'
         self.assertEqual(global_thresholding(im_path2)[-1][-1], 255)
         self.assertEqual(adaptive_mean_thresholding(im_path2, 7)[-1][-1], 255)
 
@@ -27,10 +27,8 @@ class MyTest(unittest.TestCase):
         self.assertEqual(window.title(), 'Image-Scanner')
 
     def test_otsu_binarization(self):
-        im_path1 = 'images\image1.jpg'
+        im_path1 = 'images\\image1.jpg'
         self.assertEqual(otsu_binarization.binarization(im_path1)[0], 155)
 
-        im_path2 = 'images\image4.png'
+        im_path2 = 'images\\image4.png'
         self.assertEqual(otsu_binarization.binarization(im_path2)[0], 117)
-
-

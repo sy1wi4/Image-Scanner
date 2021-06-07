@@ -1,25 +1,13 @@
 import cv2 as cv
 import numpy as np
-from matplotlib import pyplot as plt
-
-
-def plot_c(original, thresh, title):
-    fig, axes = plt.subplots(1, 2)
-    axes[0].imshow(original, 'gray')
-    axes[0].set_title("Original")
-    axes[0].axes.get_xaxis().set_visible(False)
-    axes[0].axes.get_yaxis().set_visible(False)
-    axes[1].imshow(original > thresh, 'gray')
-    axes[1].set_title(title)
-    axes[1].axes.get_xaxis().set_visible(False)
-    axes[1].axes.get_yaxis().set_visible(False)
-    plt.show()
+from app.comparer import plot_comparison
 
 
 # with image filtering
 def binarization(image_name, plot=False):
     # remove the noise
     img = cv.GaussianBlur(cv.imread(image_name, 0), (5, 5), 0)
+
     # compute histogram
     values = img.flatten()
     hist, bins = np.histogram(values, range(257))
@@ -30,7 +18,6 @@ def binarization(image_name, plot=False):
     # p1, p2 - probabilities of the two classes separated by a threshold t
     # m1, m2 - means of these two classes
     # v - inter-class variance
-
     thresh = -1
     max_v = -1
     for t in range(256):
@@ -45,7 +32,7 @@ def binarization(image_name, plot=False):
             max_v = v
 
     if plot:
-        plot_c(img, thresh, "Own Otsu's thresholding")
+        plot_comparison(img, thresh, "Own Otsu's thresholding", otsu=True)
 
     res = np.where(img > thresh, 255, 0)
 

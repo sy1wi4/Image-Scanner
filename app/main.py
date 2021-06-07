@@ -1,19 +1,6 @@
 import cv2 as cv
-from matplotlib import pyplot as plt
 from app import otsu_binarization
-
-
-def plot_comparison(original, thresh, title):
-    fig, axes = plt.subplots(1, 2)
-    axes[0].imshow(original, 'gray')
-    axes[0].set_title("Original")
-    axes[0].axes.get_xaxis().set_visible(False)
-    axes[0].axes.get_yaxis().set_visible(False)
-    axes[1].imshow(thresh, 'gray')
-    axes[1].set_title(title)
-    axes[1].axes.get_xaxis().set_visible(False)
-    axes[1].axes.get_yaxis().set_visible(False)
-    plt.show()
+from app.comparer import plot_comparison
 
 
 def global_thresholding(image_name, plot=False):

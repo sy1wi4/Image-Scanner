@@ -15,7 +15,6 @@ HEIGHT = 900
 SIZE = (300, 480)
 START_BLOCK_SIZE = 7
 
-
 class GUI:
     def __init__(self, win, b_size):
         self.window = win
@@ -135,7 +134,7 @@ class GUI:
                 print("Load image!")
                 return
             except PIL.UnidentifiedImageError:
-                print("Loaded file is not image!")
+                print("Loaded file is not an image!")
                 return
 
         else:
@@ -161,7 +160,6 @@ class GUI:
     def scan_image(self):
         # scanned
         try:
-            # img = adaptive_mean_thresholding(self.image_path, self.block_size)
             if self.var_method.get() == "otsu":
                 img = binarization(self.image_path, self.block_size)[1]
             else:
@@ -187,7 +185,6 @@ def convert_image(img):
 
 
 if __name__ == '__main__':
-    block_size = START_BLOCK_SIZE
     window = tk.Tk()
-    gui = GUI(window, block_size)
+    gui = GUI(window, START_BLOCK_SIZE)
     window.mainloop()
