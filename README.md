@@ -9,9 +9,10 @@ You can also pick different method - Otsu's binarization, but it works fine only
 bimodal distribution).
 
 ### Usage example
-![](utils/using.gif)
+![](https://github.com/sy1wi4/Image-Scanner/blob/master/utils/usage.gif)
 
 #### Scan uneven ligting image
 You can change size of neighbourhood area using slider
 
+<img src="https://github.com/sy1wi4/Image-Scanner/blob/master/utils/scan_adaptive_7.png" width="350" hspace="30"/> <img src="https://github.com/sy1wi4/Image-Scanner/blob/master/utils/scan_adaptive_109.png" width="350"/>
 
