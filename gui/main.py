@@ -6,7 +6,7 @@ import PIL
 import cv2 as cv
 from PIL import Image, ImageTk
 
-sys.path.insert(0, '..')
+sys.path.insert(0, '..')  # to import from different dir
 from app.main import adaptive_gaussian_thresholding
 from app.otsu_binarization import binarization
 
@@ -38,13 +38,10 @@ class GUI:
         self.center_window(WIDTH, HEIGHT)
         self.window.configure(background='gray13')
         self.set_title()
-
         self.button_choose.place(relx=0.25, rely=0.2, anchor=tk.CENTER)
-
         self.radio_group.place(relx=0.25, rely=0.3, anchor=tk.CENTER)
         self.otsu_method.pack()
         self.adaptive_method.pack()
-
         self.add_slider()
         self.add_scan_button()
         self.add_save_button()
@@ -111,6 +108,8 @@ class GUI:
         return self.image_path
 
     def save_to_file(self):
+        # TODO: save after otsu threshhold
+
         if self.scan_arr is None:
             print("No image scanned!")
             return
@@ -144,17 +143,18 @@ class GUI:
 
         img = tk.Label(image=render)
         img.image = render
-        if location == 'l':
-            img.place(relx=0.3, rely=0.7, anchor=tk.CENTER)
-            or_title = tk.Label(window, text="Original", bg='gray13', fg='Azure')
-            or_title.config(font=('helvetica', 15, 'bold'))
-            or_title.place(relx=0.3, rely=0.4, anchor=tk.CENTER)
 
+        if location == 'l':
+            x = 0.3
+            text = "Original"
         else:
-            img.place(relx=0.7, rely=0.7, anchor=tk.CENTER)
-            sc_title = tk.Label(window, text="Scanned", bg='gray13', fg='Azure')
-            sc_title.config(font=('helvetica', 15, 'bold'))
-            sc_title.place(relx=0.7, rely=0.4, anchor=tk.CENTER)
+            x = 0.7
+            text = "Scanned"
+
+        img.place(relx=x, rely=0.7, anchor=tk.CENTER)
+        or_title = tk.Label(window, text=text, bg='gray13', fg='Azure')
+        or_title.config(font=('helvetica', 15, 'bold'))
+        or_title.place(relx=x, rely=0.4, anchor=tk.CENTER)
 
         return path
 
