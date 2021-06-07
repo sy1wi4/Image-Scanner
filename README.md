@@ -14,5 +14,5 @@ bimodal distribution).
 #### Scan uneven ligting image
 You can change size of neighbourhood area using slider
 
-<img src="https://github.com/sy1wi4/Image-Scanner/blob/master/utils/scan_adaptive_7.png" width="280" hspace="30"/> <img src="https://github.com/sy1wi4/Image-Scanner/blob/master/utils/scan_adaptive_109.png" width="280"/>
+<img src="https://github.com/sy1wi4/Image-Scanner/blob/master/utils/scan_adaptive_7.png" width="350" hspace="30"/> <img src="https://github.com/sy1wi4/Image-Scanner/blob/master/utils/scan_adaptive_109.png" width="350"/>
 
