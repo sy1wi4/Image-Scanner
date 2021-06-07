@@ -107,8 +107,6 @@ class GUI:
         return self.image_path
 
     def save_to_file(self):
-        # TODO: save after otsu threshhold
-
         if self.scan_arr is None:
             print("No image scanned!")
             return
