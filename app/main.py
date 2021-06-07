@@ -16,7 +16,6 @@ def adaptive_mean_thresholding(image_name, block_size, plot=False):
 
     img = cv.imread(image_name, 0)
     # blockSize determines the size of the neighbourhood area
-    # C is a constant
 
     thresh = cv.adaptiveThreshold(img, 255, cv.ADAPTIVE_THRESH_MEAN_C, cv.THRESH_BINARY, blockSize=block_size, C=5)
     if plot:
@@ -29,7 +28,7 @@ def adaptive_gaussian_thresholding(image_name, block_size, plot=False):
 
     img = cv.imread(image_name, 0)
     # blockSize determines the size of the neighbourhood area
-    # C is a constant
+
     thresh = cv.adaptiveThreshold(img, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, blockSize=block_size, C=5)
     if plot:
         plot_comparison(img, thresh, "Adaptive gaussian thresholding")
@@ -90,8 +89,3 @@ if __name__ == '__main__':
 
     # test_methods('images/image1.jpg', 7)
     quick_comparison()
-
-    # global_thresholding('images/buildings.jpg', plot=True)
-    # otsu_thresholding('images/buildings.jpg', plot=True)
-    # otsu_thresholding_filtered('images/buildings.jpg', plot=True)
-    # otsu_binarization.binarization('images/buildings.jpg', plot=True)
