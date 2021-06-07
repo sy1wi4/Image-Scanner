@@ -12,7 +12,20 @@ bimodal distribution).
 ![](https://github.com/sy1wi4/Image-Scanner/blob/master/utils/usage.gif)
 
 #### Scan uneven ligting image
-You can change size of neighbourhood area using slider
+You can change size of neighbourhood area using slider.
 
 <img src="https://github.com/sy1wi4/Image-Scanner/blob/master/utils/scan_adaptive_7.png" width="350" hspace="30"/> <img src="https://github.com/sy1wi4/Image-Scanner/blob/master/utils/scan_adaptive_109.png" width="350"/>
 
+As mentioned above, the Otsu's method is not doing well in this case.
+
+<img src="https://github.com/sy1wi4/Image-Scanner/blob/master/utils/scan_otsu.png" width="450" hspace="30"/>
+
+#### Scan bimodal image
+To scan bimodal image Otsu method is more suitable.
+
+<img src="https://github.com/sy1wi4/Image-Scanner/blob/master/utils/scan_bimodal_adaptive.png" width="350" hspace="30"/> <img src="https://github.com/sy1wi4/Image-Scanner/blob/master/utils/scan_bimodal_otsu.png" width="350"/>
+
+#### Save result file
+You can save scanned image on your computer (e.g. for printing).
+
+<img src="https://github.com/sy1wi4/Image-Scanner/blob/master/utils/save.png" width="450" hspace="30"/>
